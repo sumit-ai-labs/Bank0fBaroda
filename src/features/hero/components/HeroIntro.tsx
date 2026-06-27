@@ -28,7 +28,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({ onComplete }) => {
         // Trigger exit transition after exactly 2 seconds
         const timer = setTimeout(() => {
             handleCompleteRef.current();
-        }, 2000);
+        }, 1000);
 
         const v = videoRef.current;
         if (v) {
