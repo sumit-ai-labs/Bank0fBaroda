@@ -1,0 +1,540 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   OutreachVideoHub.css
+   Mirrors EngagementHub.css exactly, using the `ovh-` prefix for isolation.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ovh-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(235, 101, 37, 0.08), transparent 34%),
+        radial-gradient(circle at 88% 82%, rgba(46, 158, 91, 0.07), transparent 34%),
+        var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-primary);
+}
+
+.ovh-watermark {
+    position: absolute;
+    right: -2vw;
+    bottom: 1vh;
+    z-index: 0;
+    color: var(--color-text-primary);
+    font-size: clamp(72px, 13vw, 210px);
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: 0;
+    opacity: 0.02;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.ovh-shell {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(320px, 0.85fr) minmax(480px, 1.15fr);
+    gap: clamp(20px, 3.5vw, 54px);
+    align-items: stretch;
+    padding: clamp(64px, 8vh, 88px) clamp(24px, 5vw, 76px) clamp(20px, 3vh, 36px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.ovh-left,
+.ovh-right {
+    min-width: 0;
+}
+
+/* ── Left panel ─────────────────────────────────────────────────────────── */
+
+.ovh-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 8px;
+    scrollbar-width: none;
+}
+
+.ovh-left::-webkit-scrollbar {
+    display: none;
+}
+
+.ovh-eyebrow {
+    margin: 0;
+    color: var(--color-accent-orange);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.ovh-left-title {
+    margin: 0;
+    font-size: clamp(38px, 4.55vw, 66px);
+    font-weight: 950;
+    line-height: 0.91;
+    letter-spacing: 0;
+}
+
+.ovh-left-title span {
+    display: block;
+    animation: ovh-word-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--ovh-idx) * 80ms);
+}
+
+/* ── Checklist ──────────────────────────────────────────────────────────── */
+
+.ovh-checklist {
+    display: grid;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.ovh-check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 8px 12px;
+    border: 1px solid rgba(46, 158, 91, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.68);
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+    box-shadow: 0 10px 28px rgba(17, 17, 17, 0.05);
+    animation: ovh-rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(280ms + (var(--ovh-idx) * 100ms));
+}
+
+.ovh-check-item i {
+    position: relative;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(46, 158, 91, 0.14);
+}
+
+.ovh-check-item i::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 5px;
+    height: 8px;
+    border: solid #2e9e5b;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ── CTA buttons ────────────────────────────────────────────────────────── */
+
+.ovh-cta-connect,
+.ovh-cta-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    width: fit-content;
+    transition:
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 280ms ease,
+        background 280ms ease,
+        box-shadow 280ms ease;
+}
+
+.ovh-cta-connect {
+    border: 1px solid rgba(235, 101, 37, 0.28);
+    box-shadow: 0 10px 28px rgba(17, 17, 17, 0.07);
+    animation: ovh-rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) 800ms both;
+}
+
+.ovh-cta-connect span {
+    color: var(--color-accent-orange);
+    transition: transform 240ms ease;
+}
+
+.ovh-cta-connect:hover {
+    transform: translateY(-3px);
+    border-color: rgba(235, 101, 37, 0.56);
+    box-shadow: 0 20px 48px rgba(235, 101, 37, 0.14);
+}
+
+.ovh-cta-connect:hover span {
+    transform: translateX(4px);
+}
+
+.ovh-cta-back {
+    border: 1px solid rgba(46, 158, 91, 0.28);
+    background: rgba(46, 158, 91, 0.06);
+    box-shadow: 0 10px 28px rgba(17, 17, 17, 0.06);
+    animation: ovh-rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) 900ms both;
+}
+
+.ovh-cta-back span {
+    color: #2e9e5b;
+    transition: transform 240ms ease;
+}
+
+.ovh-cta-back:hover {
+    transform: translateY(-3px);
+    border-color: rgba(46, 158, 91, 0.52);
+    background: rgba(46, 158, 91, 0.1);
+    box-shadow: 0 20px 48px rgba(46, 158, 91, 0.14);
+}
+
+.ovh-cta-back:hover span {
+    transform: translateX(-4px);
+}
+
+.ovh-cta-connect:focus-visible,
+.ovh-cta-back:focus-visible {
+    outline: 3px solid rgba(235, 101, 37, 0.28);
+    outline-offset: 3px;
+}
+
+/* ── Right panel ────────────────────────────────────────────────────────── */
+
+.ovh-right {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 22px;
+    min-height: 0;
+}
+
+/* ── Tabs ───────────────────────────────────────────────────────────────── */
+
+.ovh-tabs {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1.45vw, 20px);
+    overflow-x: auto;
+    padding: 0 2px 10px;
+    scrollbar-width: none;
+}
+
+.ovh-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.ovh-tab {
+    position: relative;
+    flex: 0 0 auto;
+    padding: 0 0 10px;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: clamp(10px, 0.9vw, 12px);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: color 220ms ease;
+}
+
+.ovh-tab::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-accent-orange);
+    transition: right 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ovh-tab:hover,
+.ovh-tab--active {
+    color: var(--color-text-primary);
+}
+
+.ovh-tab--active {
+    font-weight: 950;
+}
+
+.ovh-tab--active::after,
+.ovh-tab:hover::after {
+    right: 0;
+}
+
+.ovh-tab:focus-visible {
+    outline: 3px solid rgba(235, 101, 37, 0.28);
+    outline-offset: 3px;
+}
+
+/* ── Content card ───────────────────────────────────────────────────────── */
+
+.ovh-content-card {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(160px, 1fr) auto;
+    gap: 16px;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.68);
+    box-shadow:
+        0 24px 70px rgba(17, 17, 17, 0.08),
+        0 1px 0 rgba(255, 255, 255, 0.72) inset;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: clamp(14px, 1.8vw, 22px);
+    overflow: hidden;
+    animation: ovh-panel-in 430ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Video frame ────────────────────────────────────────────────────────── */
+
+.ovh-video-frame {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 16px;
+    background: #0a0a0a;
+    box-shadow: 0 18px 48px rgba(17, 17, 17, 0.18);
+}
+
+.ovh-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    animation: ovh-image-in 430ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Fade-out overlay used during video switching */
+.ovh-video-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    border-radius: inherit;
+    pointer-events: none;
+    transition: background 220ms ease;
+}
+
+.ovh-video-frame--switching::after {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* ── Copy section ───────────────────────────────────────────────────────── */
+
+.ovh-copy {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+}
+
+.ovh-copy-eyebrow {
+    margin: 0;
+    color: var(--color-accent-orange);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.ovh-copy h3 {
+    margin: 0;
+    font-size: clamp(32px, 4.2vw, 62px);
+    font-weight: 950;
+    line-height: 0.95;
+    letter-spacing: 0;
+    animation: ovh-rise-in 430ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+.ovh-copy-desc {
+    color: var(--color-text-secondary);
+    font-size: clamp(14px, 1.25vw, 17px);
+    font-weight: 600;
+    line-height: 1.65;
+    max-width: 720px;
+    animation: ovh-rise-in 430ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+}
+
+.ovh-meta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    animation: ovh-rise-in 430ms cubic-bezier(0.22, 1, 0.36, 1) 280ms both;
+}
+
+.ovh-meta-row em {
+    padding: 9px 12px;
+    border: 1px solid rgba(46, 158, 91, 0.14);
+    border-radius: 999px;
+    background: rgba(46, 158, 91, 0.06);
+    color: var(--color-text-primary);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 850;
+}
+
+.ovh-watch-cta {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 17px;
+    border: 1px solid rgba(235, 101, 37, 0.28);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    width: fit-content;
+    box-shadow: 0 16px 38px rgba(17, 17, 17, 0.08);
+    transition:
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 280ms ease,
+        box-shadow 280ms ease;
+    animation: ovh-rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) 360ms both;
+}
+
+.ovh-watch-cta span {
+    color: var(--color-accent-orange);
+    transition: transform 240ms ease;
+}
+
+.ovh-watch-cta:hover {
+    transform: translateY(-4px);
+    border-color: rgba(235, 101, 37, 0.56);
+    box-shadow: 0 24px 54px rgba(235, 101, 37, 0.16);
+}
+
+.ovh-watch-cta:hover span {
+    transform: translateX(4px);
+}
+
+.ovh-watch-cta:focus-visible {
+    outline: 3px solid rgba(235, 101, 37, 0.28);
+    outline-offset: 3px;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────── */
+
+@keyframes ovh-word-in {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ovh-rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ovh-panel-in {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes ovh-image-in {
+    from {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 1060px) {
+    .ovh-section {
+        overflow-y: auto;
+    }
+
+    .ovh-shell {
+        height: auto;
+        min-height: 100vh;
+        grid-template-columns: 1fr;
+        padding-top: 90px;
+    }
+
+    .ovh-left {
+        justify-content: start;
+    }
+
+    .ovh-content-card {
+        min-height: 680px;
+    }
+}
+
+@media (max-width: 720px) {
+    .ovh-shell {
+        padding: 86px 20px 34px;
+    }
+
+    .ovh-left-title {
+        font-size: clamp(42px, 13vw, 64px);
+    }
+
+    .ovh-content-card {
+        min-height: 0;
+        grid-template-rows: 220px auto;
+    }
+
+    .ovh-tabs {
+        margin-right: -20px;
+        padding-right: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ovh-left-title span,
+    .ovh-check-item,
+    .ovh-cta-connect,
+    .ovh-cta-back,
+    .ovh-content-card,
+    .ovh-video,
+    .ovh-copy h3,
+    .ovh-copy-desc,
+    .ovh-meta-row,
+    .ovh-watch-cta {
+        animation: none !important;
+        transition: none !important;
+    }
+}

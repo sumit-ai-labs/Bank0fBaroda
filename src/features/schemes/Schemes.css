@@ -1,0 +1,736 @@
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 2 — SCHEME SCATTER  (enterprise premium evolution)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Root — warm enterprise background (matches Hero) ──────────── */
+.s2-root {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background:
+        radial-gradient(ellipse 60% 55% at 8% 12%,  rgba(235, 101, 37, 0.055) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 92% 88%, rgba(46, 158, 91,  0.05)  0%, transparent 70%),
+        #F8F8F6;
+    overflow: hidden;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111111;
+}
+
+/* ── Decorative light blobs (replaces dark blobs) ─────────────── */
+.s2-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.s2-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    will-change: transform;
+}
+
+.s2-blob--a {
+    width: 42vw;
+    height: 42vw;
+    min-width: 300px;
+    min-height: 300px;
+    top: -10%;
+    left: -8%;
+    background: rgba(235, 101, 37, 0.06);
+    animation: s2-blob-a 30s ease-in-out infinite alternate;
+}
+
+.s2-blob--b {
+    width: 36vw;
+    height: 36vw;
+    min-width: 260px;
+    min-height: 260px;
+    top: 58%;
+    left: 65%;
+    background: rgba(46, 158, 91, 0.05);
+    animation: s2-blob-b 36s ease-in-out infinite alternate;
+}
+
+.s2-blob--c {
+    width: 28vw;
+    height: 28vw;
+    min-width: 200px;
+    min-height: 200px;
+    top: 15%;
+    left: 72%;
+    background: rgba(27, 103, 201, 0.04);
+    animation: s2-blob-c 24s ease-in-out infinite alternate;
+}
+
+/* Blobs move ≈70% less — atmosphere, not motion */
+@keyframes s2-blob-a {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(1.5vw, 2vh) scale(1.03); }
+}
+@keyframes s2-blob-b {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-1.8vw, -1.5vh) scale(0.97); }
+}
+@keyframes s2-blob-c {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-1.2vw, 1.8vh) scale(1.02); }
+}
+
+/* ── Watermark — identical treatment to Hero ──────────────────── */
+.s2-watermark {
+    position: absolute;
+    bottom: -3%;
+    left: 0;
+    width: 100%;
+    font-size: 17vw;
+    font-weight: 900;
+    color: #111111;
+    opacity: 0.015;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    line-height: 0.85;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+}
+
+/* ── Canvas ────────────────────────────────────────────────────── */
+.s2-canvas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/*
+ * Cursor wrapper — the entire composition follows the mouse very softly.
+ * Long transition (1.8s) creates natural inertia: never snaps, never jerks.
+ * Max pull is 1–2px, applied by the RAF loop in Schemes.tsx.
+ */
+.s2-composition-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    will-change: transform;
+    transform: translate3d(var(--s2-canvas-cursor-tx, 0px), var(--s2-canvas-cursor-ty, 0px), 0);
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/*
+ * Composition drift — the ENTIRE card collection travels a smooth orbital path.
+ * Rules:
+ *   – 42 seconds per cycle (almost timeless)
+ *   – NO rotation (translation only — rotation looks mechanical)
+ *   – MAX ±9px horizontal, ±7px vertical
+ *   – 8 smooth waypoints so direction changes blend imperceptibly
+ *   – linear timing-function: the path never "arrives", always in motion
+ */
+.s2-composition-drift {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    will-change: transform;
+    animation: s2-global-drift 28s linear infinite;
+}
+
+@keyframes s2-global-drift {
+    0%    { transform: translate3d(   0px,   0px, 0); }
+    12%   { transform: translate3d( -12px,  -9px, 0); }
+    25%   { transform: translate3d( -18px,  -5px, 0); }
+    37%   { transform: translate3d( -10px,   8px, 0); }
+    50%   { transform: translate3d(   0px,  14px, 0); }
+    62%   { transform: translate3d(  14px,  10px, 0); }
+    75%   { transform: translate3d(  18px,  -2px, 0); }
+    87%   { transform: translate3d(   8px, -12px, 0); }
+    100%  { transform: translate3d(   0px,   0px, 0); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CENTRE HEADING — enterprise hierarchy
+   ══════════════════════════════════════════════════════════════ */
+.s2-heading-ambient {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38vw;
+    height: 38vw;
+    background: radial-gradient(circle, rgba(235, 101, 37, 0.075) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 4;
+    filter: blur(40px);
+}
+
+.s2-heading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 5;
+    pointer-events: none;
+    max-width: 50%;
+    transition: opacity 0.3s ease;
+}
+
+.s2-heading-eyebrow {
+    font-size: clamp(9px, 0.85vh, 11px);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: clamp(10px, 1.4vh, 16px);
+}
+
+.s2-heading-title {
+    font-size: clamp(28px, 5.5vh, 58px);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: #111111;
+    margin-bottom: clamp(10px, 1.2vh, 16px);
+}
+
+.s2-orange {
+    color: #eb6525;
+}
+
+.s2-heading-body {
+    font-size: clamp(11px, 1.15vh, 14px);
+    font-weight: 400;
+    line-height: 1.7;
+    color: #666666;
+    margin-bottom: clamp(12px, 1.4vh, 18px);
+}
+
+.s2-heading-sub {
+    font-size: clamp(9px, 0.85vh, 11px);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TILE LAYERS — ALL UNCHANGED (architecture preserved exactly)
+   ══════════════════════════════════════════════════════════════ */
+
+/* Layer 1: Hitbox */
+.s2-tile-hitbox {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    padding: 16px;
+    margin: -16px;
+}
+
+/*
+ * Individual card micro-variation.
+ * Each card drifts by a tiny unique amount so the composition never feels rigid.
+ * Max: ±2px horizontal, ±2px vertical, ±0.2° rotation.
+ * The global composition drift is the DOMINANT motion — this is barely perceptible.
+ */
+.s2-tile-float {
+    pointer-events: none;
+    will-change: translate, rotate;
+    animation: s2-individual-float var(--s2-float-dur) var(--s2-float-delay) ease-in-out infinite alternate;
+}
+
+.s2-tile-float--paused {
+    animation-play-state: paused;
+}
+
+@keyframes s2-individual-float {
+    0% {
+        translate: 0px 0px;
+        rotate: 0deg;
+    }
+    100% {
+        /* ±4px visible drift per card, ±0.75° tilt — organic micro-variation */
+        translate:
+            calc(var(--s2-float-x-raw, 0px) * 0.35)
+            calc(var(--s2-float-y-raw, 0px) * 0.35);
+        rotate: calc(var(--s2-float-rot-raw, 0deg) * 0.25);
+    }
+}
+
+/* Layer 3: enter stagger */
+.s2-tile-enter {
+    opacity: 0;
+    animation: s2-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--s2-stagger);
+}
+
+@keyframes s2-enter {
+    from {
+        opacity: 0;
+        translate: 0 22px;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+/* Layer 4: tile button */
+.s2-tile {
+    position: relative;
+    display: block;
+    pointer-events: auto;
+    transform: rotate(var(--s2-rotate)) scale(var(--s2-depth-scale, 1));
+    width: var(--s2-base-w);
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition:
+        opacity      0.4s ease,
+        filter       0.4s ease,
+        transform    0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
+}
+
+/*
+ * HOVERED tile — elevation-focused, not size-focused.
+ * Scale is intentionally modest (1.28). The real change is shadow lift on .s2-card.
+ */
+.s2-tile--hovered {
+    transform: rotate(calc(var(--s2-rotate) * 0.2)) scale(1.28);
+    z-index: 10;
+}
+
+/* DIMMED tiles */
+.s2-tile--dimmed {
+    opacity: 0.18;
+    filter: grayscale(0.5) blur(0.3px);
+    transform: rotate(var(--s2-rotate)) scale(calc(var(--s2-depth-scale, 1) * 0.94));
+}
+
+/* PRIMARY tile (Green Krishi) — slightly more prominent */
+.s2-tile--primary {
+    transform: rotate(var(--s2-rotate)) scale(calc(var(--s2-depth-scale, 1) * 1.06));
+}
+
+.s2-tile--primary.s2-tile--hovered {
+    transform: rotate(calc(var(--s2-rotate) * 0.2)) scale(1.34);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PREMIUM CARD — visual upgrade inside the tile button
+   ══════════════════════════════════════════════════════════════ */
+.s2-card {
+    position: relative;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 16px;
+    overflow: hidden;
+    /*
+     * Depth-aware shadow: cards with higher --s2-depth-scale (closer to viewer)
+     * cast a slightly stronger shadow, reinforcing the layered Z-depth illusion.
+     */
+    box-shadow:
+        0 calc(var(--s2-depth-scale, 1) * 2px)  calc(var(--s2-depth-scale, 1) * 8px)  rgba(0, 0, 0, 0.06),
+        0 calc(var(--s2-depth-scale, 1) * 6px)  calc(var(--s2-depth-scale, 1) * 20px) rgba(0, 0, 0, calc(var(--s2-depth-scale, 1) * 0.07));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+        box-shadow   0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.4s ease,
+        transform    0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hover — elevation through shadow, not scale */
+.s2-tile--hovered .s2-card {
+    box-shadow:
+        0 0 0 1.5px #eb6525,
+        0 0 18px 2px rgba(235, 101, 37, 0.15),
+        0 20px 56px rgba(0, 0, 0, 0.18);
+    border-color: rgba(235, 101, 37, 0.4);
+    transform: translateY(-6px);
+}
+
+/* Primary (Green Krishi) gentle ambient glow & higher elevation */
+.s2-tile--primary .s2-card {
+    border-color: rgba(235, 101, 37, 0.25);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        0 12px 36px rgba(235, 101, 37, 0.14);
+    animation: s2-primary-pulse 15s ease-in-out infinite;
+}
+
+@keyframes s2-primary-pulse {
+    0%, 90%, 100% {
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.08),
+            0 12px 36px rgba(235, 101, 37, 0.14);
+        border-color: rgba(235, 101, 37, 0.25);
+    }
+    95% {
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.1),
+            0 16px 48px rgba(235, 101, 37, 0.35),
+            0 0 0 2px rgba(235, 101, 37, 0.4);
+        border-color: rgba(235, 101, 37, 0.5);
+    }
+}
+
+/* Primary accent strip */
+.s2-card-primary-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #eb6525;
+    z-index: 2;
+}
+
+/* Card illustration */
+.s2-card-img-wrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #e8e4de;
+}
+
+.s2-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.s2-tile--hovered .s2-card-img {
+    transform: scale(1.06);
+}
+
+/* Card body */
+.s2-card-body {
+    padding: clamp(6px, 0.8vh, 10px) clamp(8px, 1vw, 12px) 0;
+}
+
+.s2-card-caption {
+    display: block;
+    font-size: clamp(9px, 0.7vh, 11px);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #eb6525;
+    margin-bottom: 2px;
+}
+
+.s2-card-title {
+    font-size: clamp(11px, 0.95vh, 14px);
+    font-weight: 800;
+    color: #111111;
+    margin: 0 0 2px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.s2-card-desc {
+    font-size: clamp(9px, 0.7vh, 11px);
+    color: #333333;
+    line-height: 1.4;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(3px);
+    transition:
+        opacity   0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.s2-tile--hovered .s2-card-desc {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Card footer */
+.s2-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: clamp(4px, 0.5vh, 6px) clamp(8px, 1vw, 12px) clamp(6px, 0.8vh, 10px);
+}
+
+.s2-card-arrow {
+    font-size: clamp(9px, 0.9vh, 12px);
+    color: #eb6525;
+    opacity: 0.6;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+    display: inline-block;
+}
+
+.s2-tile--hovered .s2-card-arrow {
+    transform: translateX(3px);
+    opacity: 1;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TOOLTIP — upgraded glass styling, functionality unchanged
+   ══════════════════════════════════════════════════════════════ */
+.s2-tooltip {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(235, 101, 37, 0.3);
+    color: #111111;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    font-family: "Inter", sans-serif;
+    padding: 7px 13px;
+    border-radius: 8px;
+    max-width: 260px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    white-space: normal;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(235, 101, 37, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .s2-tile {
+        width: calc(var(--s2-base-w) * 0.72) !important;
+    }
+    .s2-heading {
+        max-width: 86%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .s2-composition-drift,
+    .s2-composition-wrapper,
+    .s2-tile-float,
+    .s2-tile-enter,
+    .s2-blob,
+    .s2-tile--primary .s2-card {
+        animation: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+        transform: none !important;
+    }
+    /* Keep hover interactions functional */
+    .s2-tile--hovered {
+        transform: scale(1.28) !important;
+    }
+}
+
+/* Refined Section 2 composition */
+.s2-root {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(248, 248, 246, 0.92)),
+        radial-gradient(ellipse 80% 65% at 50% 50%, rgba(235, 101, 37, 0.055), transparent 62%),
+        #f8f8f6;
+}
+
+.s2-bg,
+.s2-blob {
+    display: none;
+}
+
+.s2-watermark {
+    opacity: 0.012;
+    letter-spacing: 0.015em;
+}
+
+.s2-composition-wrapper {
+    transform: none;
+    transition: none;
+}
+
+.s2-composition-drift {
+    animation: none;
+}
+
+.s2-tile-hitbox {
+    padding: 10px;
+    margin: -10px;
+}
+
+.s2-tile-float {
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes s2-individual-float {
+    0% {
+        translate: 0 0;
+        rotate: 0deg;
+    }
+    100% {
+        translate:
+            calc(var(--s2-float-x-raw, 0px) * 0.45)
+            calc(var(--s2-float-y-raw, 0px) * 0.45);
+        rotate: calc(var(--s2-float-rot-raw, 0deg) * 0.55);
+    }
+}
+
+.s2-tile {
+    transition:
+        opacity 220ms ease,
+        filter 220ms ease,
+        transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.s2-tile--hovered {
+    transform: rotate(calc(var(--s2-rotate) * 0.15)) scale(1.12);
+}
+
+.s2-tile:hover {
+    transform: rotate(calc(var(--s2-rotate) * 0.15)) scale(1.12);
+    z-index: 10;
+}
+
+.s2-tile--primary {
+    transform: rotate(var(--s2-rotate)) scale(calc(var(--s2-depth-scale, 1) * 1.04));
+}
+
+.s2-tile--primary.s2-tile--hovered {
+    transform: rotate(calc(var(--s2-rotate) * 0.15)) scale(1.16);
+}
+
+.s2-tile--primary:hover {
+    transform: rotate(calc(var(--s2-rotate) * 0.15)) scale(1.16);
+}
+
+.s2-tile--dimmed {
+    opacity: 0.34;
+    filter: saturate(0.7);
+}
+
+.s2-card {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(17, 17, 17, 0.09);
+    border-radius: 8px;
+    box-shadow:
+        0 4px 14px rgba(17, 17, 17, 0.06),
+        0 12px 34px rgba(17, 17, 17, 0.08);
+}
+
+.s2-tile--hovered .s2-card {
+    border-color: rgba(235, 101, 37, 0.42);
+    box-shadow:
+        0 0 0 1px rgba(235, 101, 37, 0.42),
+        0 16px 42px rgba(17, 17, 17, 0.16);
+    transform: translateY(-4px);
+}
+
+.s2-tile:hover .s2-card {
+    border-color: rgba(235, 101, 37, 0.42);
+    box-shadow:
+        0 0 0 1px rgba(235, 101, 37, 0.42),
+        0 16px 42px rgba(17, 17, 17, 0.16);
+    transform: translateY(-4px);
+}
+
+.s2-tile--primary .s2-card {
+    border-color: rgba(235, 101, 37, 0.36);
+    box-shadow:
+        0 0 0 1px rgba(235, 101, 37, 0.16),
+        0 12px 36px rgba(235, 101, 37, 0.16),
+        0 12px 30px rgba(17, 17, 17, 0.08);
+}
+
+.s2-card-img-wrap {
+    aspect-ratio: 16 / 10;
+}
+
+.s2-card-body {
+    padding: 8px 10px 0;
+}
+
+.s2-card-caption {
+    font-size: 8px;
+    line-height: 1.25;
+    letter-spacing: 0.1em;
+}
+
+.s2-card-title {
+    font-size: 12px;
+    line-height: 1.2;
+    margin-top: 3px;
+}
+
+.s2-card-desc {
+    font-size: 10px;
+}
+
+.s2-tile:hover .s2-card-desc {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.s2-card-footer {
+    padding: 4px 10px 8px;
+}
+
+.s2-heading-ambient {
+    width: min(480px, 38vw);
+    height: min(480px, 38vw);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.7) 42%, transparent 72%);
+    filter: blur(24px);
+}
+
+.s2-heading {
+    max-width: min(520px, 48vw);
+}
+
+.s2-heading-eyebrow {
+    color: #7a7a7a;
+    letter-spacing: 0.16em;
+}
+
+.s2-heading-title {
+    letter-spacing: -0.018em;
+}
+
+.s2-heading-body {
+    color: #4c4c4c;
+}
+
+@media (max-width: 1100px) {
+    .s2-tile {
+        width: calc(var(--s2-base-w) * 0.84) !important;
+    }
+
+    .s2-heading {
+        max-width: 56vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .s2-tile {
+        width: calc(var(--s2-base-w) * 0.58) !important;
+    }
+
+    .s2-heading {
+        max-width: 78vw;
+    }
+
+    .s2-card-desc,
+    .s2-card-footer {
+        display: none;
+    }
+}

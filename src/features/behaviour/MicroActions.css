@@ -1,0 +1,27 @@
+/* ═══════════════════════════════════════════════════════════════
+   MICRO ACTIONS SECTION — fullscreen image
+   ═══════════════════════════════════════════════════════════════ */
+
+.micro-actions-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    /* Match the image's own cream/off-white background so contain mode
+       doesn't show any letterbox gap */
+    background: #f5f1ea;
+    flex-shrink: 0;
+}
+
+.micro-actions-fullscreen-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* contain = entire image always visible, never cropped */
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+}
+

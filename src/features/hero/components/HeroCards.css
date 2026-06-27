@@ -1,0 +1,222 @@
+/* ═══════════════════════════════════════════════════════════════
+   HERO CARD STACK — auto-cycling right-column visual
+   ═══════════════════════════════════════════════════════════════ */
+
+.hero-cards-visual {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 1.6rem;
+}
+
+/* ── Stack container ─────────────────────────────────────────── */
+.hcs-stack {
+    position: relative;
+    width: clamp(240px, 28vw, 300px);
+    height: clamp(280px, 34vw, 350px);
+    cursor: default;
+}
+
+/* ── Individual card ─────────────────────────────────────────── */
+.hcs-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity   0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.4s ease;
+    will-change: transform, opacity;
+    overflow: hidden;
+}
+
+/* Front card layout */
+.hcs-card--front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.8rem;
+    box-sizing: border-box;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Back cards layout */
+.hcs-card--back {
+    display: flex;
+    align-items: stretch;
+}
+
+/* ── Progress bar ────────────────────────────────────────────── */
+.hcs-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 0 0 20px 20px;
+    transition: width 20ms linear;
+    pointer-events: none;
+}
+
+/* ── Top row ─────────────────────────────────────────────────── */
+.hcs-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.hcs-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.38);
+    flex-shrink: 0;
+}
+
+.hcs-icon {
+    color: rgba(255, 255, 255, 0.82);
+    display: flex;
+    align-items: center;
+}
+
+/* ── Body ────────────────────────────────────────────────────── */
+.hcs-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.8rem 0;
+}
+
+.hcs-title {
+    font-size: clamp(15px, 1.6vw, 21px);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-family: "Inter", -apple-system, sans-serif;
+}
+
+.hcs-desc {
+    font-size: clamp(10px, 1.1vh, 13px);
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.6;
+    margin: 0;
+    font-family: "Inter", -apple-system, sans-serif;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.hcs-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hcs-num {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.2);
+    letter-spacing: -0.03em;
+    font-family: "Inter", -apple-system, sans-serif;
+}
+
+.hcs-arrow-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    flex-shrink: 0;
+}
+
+.hcs-arrow-btn:hover {
+    background: rgba(255, 255, 255, 0.36);
+    transform: translateX(2px);
+}
+
+/* ── Back card inner ─────────────────────────────────────────── */
+.hcs-back-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.6rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.hcs-back-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+    font-family: "Inter", -apple-system, sans-serif;
+}
+
+.hcs-back-num {
+    font-size: 1.5rem;
+    font-weight: 900;
+    font-family: "Inter", -apple-system, sans-serif;
+}
+
+/* ── Dot indicators ──────────────────────────────────────────── */
+.hcs-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.hcs-dot-ind {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.12);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s, transform 0.25s;
+}
+
+.hcs-dot-ind--active {
+    background: var(--dot-accent, #1E6FD9);
+    transform: scale(1.35);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .hcs-stack {
+        width: clamp(200px, 30vw, 260px);
+        height: clamp(240px, 36vw, 300px);
+    }
+}
+
+@media (max-width: 768px) {
+    .hcs-stack {
+        width: 220px;
+        height: 260px;
+    }
+
+    .hcs-card--front {
+        padding: 1.4rem;
+    }
+
+    .hcs-title {
+        font-size: 15px;
+    }
+
+    .hcs-desc {
+        font-size: 11px;
+    }
+}
