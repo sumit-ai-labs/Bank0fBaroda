@@ -25,3 +25,18 @@
     display: block;
 }
 
+/* ── Back button — safe positioning for all device sizes ──────────────── */
+/* The button uses inline top:100px; override with safe-area-inset-top
+   so it never hides under the navbar on notched phones. */
+.micro-actions-section > button {
+    top: calc(env(safe-area-inset-top, 0px) + 76px) !important;
+}
+
+@media (max-width: 768px) {
+    .micro-actions-section > button {
+        top: calc(env(safe-area-inset-top, 0px) + 60px) !important;
+        left: 16px !important;
+        font-size: 12px !important;
+    }
+}
+

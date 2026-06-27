@@ -31,6 +31,11 @@ export function useSectionNavigation({
     const targetSectionRef = useRef(0);
     const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    // Touch tracking refs — for mobile swipe navigation
+    const touchStartX = useRef<number | null>(null);
+    const touchStartY = useRef<number | null>(null);
+    const touchIsHorizontal = useRef(false); // true once we've confirmed a horizontal swipe
+
     // Track intermediate sections to collapse during transition
     const [collapsedIndices, setCollapsedIndices] = useState<Set<number>>(new Set());
 
@@ -207,6 +212,64 @@ export function useSectionNavigation({
         [scrollRef, s3ClickTriggered, isTransitioningRef, getScrollTarget, scrollToSection],
     );
 
+    // ── Touch handlers ─────────────────────────────────────────────────────
+    const onTouchStart = useCallback(
+        (e: TouchEvent) => {
+            touchStartX.current = e.touches[0].clientX;
+            touchStartY.current = e.touches[0].clientY;
+            touchIsHorizontal.current = false;
+        },
+        [],
+    );
+
+    const onTouchMove = useCallback(
+        (e: TouchEvent) => {
+            if (touchStartX.current === null || touchStartY.current === null) return;
+            const dx = e.touches[0].clientX - touchStartX.current;
+            const dy = e.touches[0].clientY - touchStartY.current;
+            if (!touchIsHorizontal.current) {
+                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+                    touchIsHorizontal.current = true;
+                } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 6) {
+                    // Clearly vertical — let the browser handle it
+                    touchStartX.current = null;
+                    touchStartY.current = null;
+                    return;
+                }
+            }
+            // Suppress native horizontal scroll-snap when we've taken control
+            if (touchIsHorizontal.current) e.preventDefault();
+        },
+        [],
+    );
+
+    const onTouchEnd = useCallback(
+        (e: TouchEvent) => {
+            const startX = touchStartX.current;
+            touchStartX.current = null;
+            touchStartY.current = null;
+            const wasHorizontal = touchIsHorizontal.current;
+            touchIsHorizontal.current = false;
+
+            if (!wasHorizontal || startX === null) return;
+            if (isScrollingH.current || isTransitioningRef.current) return;
+
+            const dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) < 30) return; // minimum swipe threshold
+
+            const current = currentSectionRef.current;
+            const direction = dx < 0 ? "next" : "prev";
+            const next = getScrollTarget(current, direction);
+
+            if (next === 2 && current < 2 && !s3ClickTriggered.current) return;
+            if (next === current) return;
+
+            if (next < 2) s3ClickTriggered.current = false;
+            scrollToSection(next);
+        },
+        [s3ClickTriggered, isTransitioningRef, getScrollTarget, scrollToSection],
+    );
+
     // ── Event listener setup ───────────────────────────────────────────────
     useEffect(() => {
         const el = scrollRef.current;
@@ -300,15 +363,21 @@ export function useSectionNavigation({
 
         el.addEventListener("wheel", onWheel, { passive: false });
         el.addEventListener("scroll", handleScroll);
+        el.addEventListener("touchstart", onTouchStart, { passive: true });
+        el.addEventListener("touchmove", onTouchMove, { passive: false });
+        el.addEventListener("touchend", onTouchEnd);
         window.addEventListener("keydown", onKey);
 
         return () => {
             el.removeEventListener("wheel", onWheel);
             el.removeEventListener("scroll", handleScroll);
+            el.removeEventListener("touchstart", onTouchStart);
+            el.removeEventListener("touchmove", onTouchMove);
+            el.removeEventListener("touchend", onTouchEnd);
             window.removeEventListener("keydown", onKey);
             if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
         };
-    }, [scrollRef, onWheel, onKey, s3ClickTriggered, isTransitioningRef, collapsedIndices]);
+    }, [scrollRef, onWheel, onKey, onTouchStart, onTouchMove, onTouchEnd, s3ClickTriggered, isTransitioningRef, collapsedIndices]);
 
     return {
         activeSection,

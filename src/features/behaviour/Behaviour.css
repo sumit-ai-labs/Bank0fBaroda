@@ -431,9 +431,15 @@
         height: 100vh;
     }
 
+    /* Remove the minmax() constraint — 460px forces overflow on a 375px phone */
     .behaviour-detail-shell {
+        grid-template-columns: 1fr;
         gap: 28px;
         padding: 86px 20px 34px;
+    }
+
+    .behaviour-detail-right {
+        min-width: 0;
     }
 
     .behaviour-detail-left {

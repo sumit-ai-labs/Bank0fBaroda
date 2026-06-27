@@ -50,7 +50,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({ onComplete }) => {
                 src="/assets/bankvideo.mp4"
                 muted
                 playsInline
-                preload="auto"
+                preload="metadata"
             />
             <div className="intro-text-overlay">
                 <p className="intro-eyebrow">Bank of Baroda</p>

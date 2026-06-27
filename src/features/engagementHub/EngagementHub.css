@@ -591,6 +591,12 @@
         padding: 86px 20px 34px;
     }
 
+    /* Remove default min-width so panels can shrink below 320px on small phones */
+    .engagement-left-panel,
+    .engagement-right-panel {
+        min-width: 0;
+    }
+
     .engagement-left-title {
         font-size: clamp(42px, 13vw, 64px);
     }
