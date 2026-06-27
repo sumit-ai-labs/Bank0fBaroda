@@ -311,7 +311,9 @@
         position: relative;
         inset: auto;
         width: auto;
-        transform: none;
+        transform: none !important;
+        animation: none !important;
+        opacity: 1 !important;
     }
 
     .s3-summary-card {

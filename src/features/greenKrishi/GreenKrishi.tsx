@@ -55,6 +55,7 @@ export const GreenKrishi: React.FC<GreenKrishiProps> = ({ pageStatus }) => {
                     opacity: pageStatus === "cross-fading" || pageStatus === "completed" ? 0 : 1,
                     transition: "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1)",
                     zIndex: 1,
+                    pointerEvents: pageStatus === "completed" ? "none" : "auto",
                 }}
             >
                 <video

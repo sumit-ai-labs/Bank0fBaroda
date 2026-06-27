@@ -508,6 +508,12 @@
         padding: 86px 20px 34px;
     }
 
+    /* Remove default min-width so panels can shrink below 320px on small phones */
+    .ovh-left,
+    .ovh-right {
+        min-width: 0;
+    }
+
     .ovh-left-title {
         font-size: clamp(42px, 13vw, 64px);
     }

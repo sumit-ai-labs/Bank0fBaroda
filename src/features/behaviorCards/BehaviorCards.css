@@ -313,7 +313,8 @@
         position: relative;
         inset: auto;
         width: auto;
-        transform: none;
+        transform: none !important;
+        animation: none !important;
     }
 
     .s4-heading {
@@ -334,7 +335,9 @@
     .s4-card {
         left: auto;
         top: auto;
-        opacity: 1;
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
     }
 }
 

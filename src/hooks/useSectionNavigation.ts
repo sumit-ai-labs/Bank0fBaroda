@@ -229,6 +229,26 @@ export function useSectionNavigation({
             const dy = e.touches[0].clientY - touchStartY.current;
             if (!touchIsHorizontal.current) {
                 if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+                    // Check if target is inside an element that handles horizontal scroll (like tabs)
+                    let current = e.target as HTMLElement | null;
+                    let hasHorizontalScrollAncestor = false;
+                    while (current && current !== scrollRef.current) {
+                        const style = window.getComputedStyle(current);
+                        if (
+                            (style.overflowX === "auto" || style.overflowX === "scroll") &&
+                            current.scrollWidth > current.clientWidth
+                        ) {
+                            hasHorizontalScrollAncestor = true;
+                            break;
+                        }
+                        current = current.parentElement;
+                    }
+                    if (hasHorizontalScrollAncestor) {
+                        // Cancel swipe navigation to let this sub-element scroll horizontally
+                        touchStartX.current = null;
+                        touchStartY.current = null;
+                        return;
+                    }
                     touchIsHorizontal.current = true;
                 } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 6) {
                     // Clearly vertical — let the browser handle it
@@ -240,7 +260,7 @@ export function useSectionNavigation({
             // Suppress native horizontal scroll-snap when we've taken control
             if (touchIsHorizontal.current) e.preventDefault();
         },
-        [],
+        [scrollRef],
     );
 
     const onTouchEnd = useCallback(
