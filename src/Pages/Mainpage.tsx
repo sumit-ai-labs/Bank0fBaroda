@@ -43,6 +43,7 @@ export default function Mainpage() {
         activeSection,
         setActiveSection,
         currentSectionRef,
+        targetSectionRef,
         scrollToSection,
         collapsedIndices,
     } = useSectionNavigation({
@@ -87,6 +88,7 @@ export default function Mainpage() {
         isTransitioningRef.current = true;
         setPageStatus("transition-zoom");
         currentSectionRef.current = 2;
+        targetSectionRef.current = 2;
 
         const el = scrollRef.current;
         if (el) {

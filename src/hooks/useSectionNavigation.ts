@@ -314,6 +314,7 @@ export function useSectionNavigation({
         activeSection,
         setActiveSection,
         currentSectionRef,
+        targetSectionRef,
         scrollToSection,
         collapsedIndices,
     };
